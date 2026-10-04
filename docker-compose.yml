@@ -1,0 +1,50 @@
+services:
+  web:
+    build: .
+    container_name: library-web
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_NAME: library
+      DB_USER: libraryuser
+      DB_PASSWORD: librarypass
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+
+  database:
+    image: postgres:17-alpine
+    container_name: library-database
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: library
+      POSTGRES_USER: libraryuser
+      POSTGRES_PASSWORD: librarypass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U libraryuser -d library"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  nginx:
+    image: nginx:alpine
+    container_name: library-nginx
+    restart: unless-stopped
+    depends_on:
+      - web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+volumes:
+  postgres_data:
