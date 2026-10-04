@@ -20,9 +20,9 @@ The Library Search module also communicates with OpenLibrary.
 docker compose up -d --build
 ```
 
-Open `http://localhost:8080`.
+Open `http://localhost:8082`.
 
-API health check: `http://localhost:8080/health`
+API health check: `http://localhost:8082/health`
 
 ## Run locally
 
