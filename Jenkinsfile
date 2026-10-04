@@ -44,7 +44,7 @@ pipeline {
         stage('Smoke Test') {
             steps {
                 sh 'docker compose ps'
-                sh 'curl --fail http://host.docker.internal:8080/health'
+                sh 'curl --fail http://host.docker.internal:8081/health'
             }
         }
     }
