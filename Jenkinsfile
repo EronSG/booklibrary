@@ -23,7 +23,7 @@ pipeline {
                 sh 'docker compose down --remove-orphans || true'
                 sh 'docker compose up -d database'
                 sh 'until [ "$(docker inspect -f "{{.State.Health.Status}}" $(docker compose ps -q database))" = "healthy" ]; do echo "Waiting for PostgreSQL..."; sleep 2; done'
-                sh 'DB_HOST=host.docker.internal DB_PORT=5432 npm test'
+                sh 'DB_HOST=host.docker.internal DB_PORT=5433 npm test'
             }
         }
 
