@@ -14,8 +14,8 @@ services:
     depends_on:
       database:
         condition: service_healthy
-    ports:
-      - "3000:3000"
+   # ports:
+   #   - "3000:3000"
 
   database:
     image: postgres:17-alpine
