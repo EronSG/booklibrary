@@ -23,7 +23,7 @@ pipeline {
                 sh 'docker compose down --remove-orphans || true'
                 sh 'docker compose up -d database'
                 sh 'until [ "$(docker inspect -f "{{.State.Health.Status}}" $(docker compose ps -q database))" = "healthy" ]; do echo "Waiting for PostgreSQL..."; sleep 2; done'
-                sh 'docker compose run --rm --user root web sh -c "npm install && npm test"'
+                sh 'docker compose run --rm --user root web sh -c "npm install --include=dev && npm test"'
             }
         }
 
