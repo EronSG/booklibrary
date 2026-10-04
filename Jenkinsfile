@@ -20,6 +20,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
+                sh 'docker compose down --remove-orphans || true'
                 sh 'docker compose up -d database'
                 sh 'npm test'
             }
@@ -34,6 +35,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
+                sh 'docker compose down --remove-orphans || true'
                 sh 'docker compose up -d --build'
             }
         }

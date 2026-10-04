@@ -1,7 +1,7 @@
 services:
   web:
     build: .
-    container_name: library-web
+   # container_name: library-web
     restart: unless-stopped
     environment:
       NODE_ENV: production
@@ -19,7 +19,7 @@ services:
 
   database:
     image: postgres:17-alpine
-    container_name: library-database
+    # container_name: library-database
     restart: unless-stopped
     environment:
       POSTGRES_DB: library
@@ -38,7 +38,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: library-nginx
+    # container_name: library-nginx
     restart: unless-stopped
     depends_on:
       - web
